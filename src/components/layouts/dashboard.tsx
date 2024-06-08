@@ -3,6 +3,7 @@ import MainLayout from './main'
 
 type Props = {
   title: string
+  selectedSidebarItem?: 'home' | 'transactions' | 'menu' | 'staffs' | 'customers'
 }
 
 interface NavigationMenuItemProps {
@@ -23,7 +24,7 @@ function NavigationMenuItem({ children, selected, href }: PropsWithChildren<Navi
   )
 }
 
-export default function DashboardLayout({ children, title = 'Le Bistro' }: PropsWithChildren<Props>) {
+export default function DashboardLayout({ children, title = 'Le Bistro', selectedSidebarItem }: PropsWithChildren<Props>) {
   return (
     <MainLayout title={title}>
       <header class="flex items-center h-12 py-1 px-4">
@@ -32,11 +33,11 @@ export default function DashboardLayout({ children, title = 'Le Bistro' }: Props
       <div class="flex flex-1">
         <nav class="w-60">
           <ul class="px-2 flex flex-col gap-1">
-            <NavigationMenuItem selected href="/">Beranda</NavigationMenuItem>
-            <NavigationMenuItem href="/transactions">Transaksi</NavigationMenuItem>
-            <NavigationMenuItem href="/menu">Menu</NavigationMenuItem>
-            <NavigationMenuItem href="/staffs">Karyawan</NavigationMenuItem>
-            <NavigationMenuItem href="/customers">Pelanggan</NavigationMenuItem>
+            <NavigationMenuItem selected={selectedSidebarItem === 'home'} href="/">Beranda</NavigationMenuItem>
+            <NavigationMenuItem selected={selectedSidebarItem === 'transactions'} href="/transactions">Transaksi</NavigationMenuItem>
+            <NavigationMenuItem selected={selectedSidebarItem === 'menu'} href="/menu">Menu</NavigationMenuItem>
+            <NavigationMenuItem selected={selectedSidebarItem === 'staffs'} href="/staffs">Karyawan</NavigationMenuItem>
+            <NavigationMenuItem selected={selectedSidebarItem === 'customers'} href="/customers">Pelanggan</NavigationMenuItem>
           </ul>
         </nav>
         <main class="bg-neutral-200 dark:bg-neutral-800 rounded-tl-md flex-1 border-t-2 border-l-2 border-neutral-300/40 dark:border-neutral-700/40">

@@ -1,8 +1,8 @@
 import Layout from 'components/layouts/dashboard'
 
-export default function Login() {
+export default function Home() {
   return (
-    <Layout title="Beranda - Le Bistro">
+    <Layout title="Beranda - Le Bistro" selectedSidebarItem="home">
       tes
     </Layout>
   )
