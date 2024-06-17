@@ -40,7 +40,7 @@ export default function DashboardLayout({ children, title = 'Le Bistro', selecte
             <NavigationMenuItem selected={selectedSidebarItem === 'customers'} href="/customers">Pelanggan</NavigationMenuItem>
           </ul>
         </nav>
-        <main class="bg-neutral-200 dark:bg-neutral-800 rounded-tl-md flex-1 border-t-2 border-l-2 border-neutral-300/40 dark:border-neutral-700/40">
+        <main class="bg-neutral-50 dark:bg-neutral-800 rounded-tl-md flex-1 border-t-2 border-l-2 border-neutral-400/40 dark:border-neutral-700/40">
           {children}
         </main>
       </div>

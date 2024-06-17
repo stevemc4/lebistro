@@ -13,7 +13,7 @@ export default function Layout({ children, title = 'Le Bistro' }: PropsWithChild
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <link rel="stylesheet" href="/static/styles.css" />
       </head>
-      <body class="bg-neutral-100 text-slate-900 dark:bg-neutral-900 dark:text-slate-50 flex flex-col min-h-screen">
+      <body class="bg-neutral-200 text-slate-900 dark:bg-neutral-900 dark:text-slate-50 flex flex-col min-h-screen">
         {children}
       </body>
     </html>
