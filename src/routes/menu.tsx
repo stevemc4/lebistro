@@ -1,10 +1,11 @@
 import { vValidator } from '@hono/valibot-validator'
 import { Hono } from 'hono'
-import { NewMenu, createMenu, getAllMenu } from 'models/menu'
+import { NewMenu, createMenu, getAllMenu, getMenuBySlug } from 'models/menu'
 import { number, object, pipe, required, string, transform, trim } from 'valibot'
 import MenuForm from 'views/menu-form'
 import MenuList from 'views/menu-list'
 import slugify from '@sindresorhus/slugify'
+import MenuDetail from 'views/menu-detail'
 
 const app = new Hono()
 
@@ -32,6 +33,14 @@ app.post('/new', vValidator('form', menuSchema), async (c) => {
   await createMenu(newMenu)
 
   return c.redirect('/menu')
+})
+
+app.get('/:menu-slug', async (c) => {
+  const menuSlug = c.req.param('menu-slug')
+  const menu = await getMenuBySlug(menuSlug)
+  if (menu === undefined) return c.notFound()
+
+  return c.html(<MenuDetail menu={menu} />)
 })
 
 export default app

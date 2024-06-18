@@ -18,6 +18,10 @@ export async function getAllMenu() {
   return await db.selectFrom('menu').selectAll().execute()
 }
 
+export async function getMenuBySlug(slug: string) {
+  return await db.selectFrom('menu').selectAll().where('slug', '==', slug).executeTakeFirst()
+}
+
 export async function createMenu(menu: NewMenu) {
   await db.insertInto('menu').values(menu).execute()
 }
