@@ -5,6 +5,9 @@ export default function MenuList({ menus }: { menus: Menu[] }) {
   return (
     <Layout title="Daftar Menu - Le Bistro" selectedSidebarItem="menu">
       <h1 class="p-8 pb-0 font-bold text-4xl">Daftar Menu</h1>
+      <div class="flex items-center mt-2 px-8">
+        <a href="/menu/new" class="text-orange-600">+ Tambah Menu Baru</a>
+      </div>
       <ul class="px-8 mt-8 grid max-w-screen-2xl grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
         {menus.map(menu => (
           <li key={menu.slug} class="">
