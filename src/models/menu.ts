@@ -6,8 +6,8 @@ export interface MenuTable {
   name: string
   slug: string
   price: number
-  createdAt: ColumnType<Date, string | undefined, never>
-  updatedAt: ColumnType<Date, string | undefined, string | undefined>
+  createdAt: ColumnType<number, number | undefined, never>
+  updatedAt: ColumnType<number, number | undefined, number | undefined>
 }
 
 export type Menu = Selectable<MenuTable>
@@ -26,7 +26,7 @@ export async function updateMenu(id: number, updatingMenu: UpdatingMenu) {
   await db.updateTable('menu')
     .set({
       ...updatingMenu,
-      updatedAt: sql`CURRENT_TIMESTAMP`,
+      updatedAt: sql`unixepoch()`,
     })
     .where('id', '==', id)
     .execute()
