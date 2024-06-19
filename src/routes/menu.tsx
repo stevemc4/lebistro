@@ -6,8 +6,10 @@ import MenuForm from 'views/menu-form'
 import MenuList from 'views/menu-list'
 import slugify from '@sindresorhus/slugify'
 import MenuDetail from 'views/menu-detail'
+import requireSession from 'middlewares/requireSession'
 
 const app = new Hono()
+app.use(requireSession)
 
 const menuSchema = required(object({
   name: pipe(string(), trim()),

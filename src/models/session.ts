@@ -1,6 +1,6 @@
 import { ColumnType, Insertable, Selectable, Updateable } from 'kysely'
 
-interface SessionTable {
+export interface SessionTable {
   id: ColumnType<string, string, never>
   userId: ColumnType<string, string, never>
   expiredAt: number
