@@ -1,9 +1,11 @@
 import SQLite from 'better-sqlite3'
-import { Kysely, SqliteDialect } from 'kysely'
+import { CamelCasePlugin, Kysely, SqliteDialect } from 'kysely'
 import { MenuTable } from 'models/menu'
 
+export const sqlite = new SQLite('lebistro.db')
+
 const dialect = new SqliteDialect({
-  database: new SQLite('lebistro.db'),
+  database: sqlite,
 })
 
 export interface Database {
@@ -12,4 +14,7 @@ export interface Database {
 
 export const db = new Kysely<Database>({
   dialect,
+  plugins: [
+    new CamelCasePlugin(),
+  ],
 })
