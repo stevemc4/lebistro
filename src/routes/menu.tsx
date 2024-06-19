@@ -1,6 +1,6 @@
 import { vValidator } from '@hono/valibot-validator'
 import { Hono } from 'hono'
-import { NewMenu, createMenu, getAllMenu, getMenuBySlug } from 'models/menu'
+import { NewMenu, UpdatingMenu, createMenu, getAllMenu, getMenuBySlug, updateMenu } from 'models/menu'
 import { number, object, pipe, required, string, transform, trim } from 'valibot'
 import MenuForm from 'views/menu-form'
 import MenuList from 'views/menu-list'
@@ -41,6 +41,30 @@ app.get('/:menu-slug', async (c) => {
   if (menu === undefined) return c.notFound()
 
   return c.html(<MenuDetail menu={menu} />)
+})
+
+app.get('/:menu-slug/edit', async (c) => {
+  const menuSlug = c.req.param('menu-slug')
+  const menu = await getMenuBySlug(menuSlug)
+  if (menu === undefined) return c.notFound()
+
+  return c.html(<MenuForm menu={menu} />)
+})
+
+app.post('/:menu-slug/edit', vValidator('form', menuSchema), async (c) => {
+  const menuSlug = c.req.param('menu-slug')
+  const menu = await getMenuBySlug(menuSlug)
+  if (menu === undefined) return c.notFound()
+
+  const data = c.req.valid('form')
+  const updatingMenu: UpdatingMenu = {
+    ...data,
+    slug: slugify(data.name),
+  }
+
+  await updateMenu(menu.id, updatingMenu)
+
+  return c.redirect(`/menu/${updatingMenu.slug}`)
 })
 
 export default app

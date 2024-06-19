@@ -1,5 +1,5 @@
 import { db } from 'db'
-import { ColumnType, Generated, Insertable, Selectable, Updateable } from 'kysely'
+import { ColumnType, Generated, Insertable, Selectable, Updateable, sql } from 'kysely'
 
 export interface MenuTable {
   id: Generated<number>
@@ -20,6 +20,16 @@ export async function getAllMenu() {
 
 export async function getMenuBySlug(slug: string) {
   return await db.selectFrom('menu').selectAll().where('slug', '==', slug).executeTakeFirst()
+}
+
+export async function updateMenu(id: number, updatingMenu: UpdatingMenu) {
+  await db.updateTable('menu')
+    .set({
+      ...updatingMenu,
+      updatedAt: sql`CURRENT_TIMESTAMP`,
+    })
+    .where('id', '==', id)
+    .execute()
 }
 
 export async function createMenu(menu: NewMenu) {
