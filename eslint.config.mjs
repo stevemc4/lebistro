@@ -14,5 +14,6 @@ export default [
     quotes: 'single',
     semi: false,
     indent: 2,
+    braceStyle: '1tbs',
   }),
 ]
