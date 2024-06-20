@@ -27,4 +27,13 @@ app.post('/login', vValidator('form', loginSchema), async (c) => {
   return c.redirect('/')
 })
 
+app.get('/logout', async (c) => {
+  const session = c.var.session
+  if (session) {
+    await lucia.invalidateSession(session.id)
+  }
+
+  return c.redirect('/login')
+})
+
 export default app
