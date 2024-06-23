@@ -20,5 +20,12 @@ export async function runSeeder(): Promise<NewUser[]> {
       name: 'John Managero',
       role: 'manager',
     },
+    {
+      id: generateIdFromEntropySize(10),
+      username: 'man_store',
+      password: await argon2Id.hash('cashier'),
+      name: 'John Cashiero',
+      role: 'staff',
+    },
   ]
 }
