@@ -23,7 +23,7 @@ export type NewUser = Insertable<UserTable>
 export type UpdatingUser = Updateable<UserTable>
 
 export async function login(usernameOrEmail: string, password: string) {
-  const user = await db.selectFrom('user').selectAll().where(eb => eb.or([eb('username', '==', usernameOrEmail), eb('email', '==', usernameOrEmail)])).executeTakeFirst()
+  const user = await db.selectFrom('user').select(['id', 'password']).where(eb => eb.or([eb('username', '==', usernameOrEmail), eb('email', '==', usernameOrEmail)])).executeTakeFirst()
   if (!user) return null
 
   const isPasswordValid = await argon2Id.verify(user.password, password)
