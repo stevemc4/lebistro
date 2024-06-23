@@ -5,7 +5,7 @@ import Home from 'views/home'
 const app = new Hono()
 
 app.get('/', requireSession, (c) => {
-  return c.html(<Home />)
+  return c.render(<Home />)
 })
 
 export default app

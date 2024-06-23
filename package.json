@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "dev": "concurrently \"tsx watch src/index.ts\" \"npx tailwindcss -i ./static/styles.raw.css -o ./static/styles.css --watch\"",
+    "dev": "concurrently \"tsx watch src/index.tsx\" \"npx tailwindcss -i ./static/styles.raw.css -o ./static/styles.css --watch\"",
     "migrate": "tsx src/migrator.ts",
     "seed": "tsx src/seeder.ts"
   },

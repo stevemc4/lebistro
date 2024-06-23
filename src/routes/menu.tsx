@@ -18,11 +18,11 @@ const menuSchema = required(object({
 
 app.get('/', async (c) => {
   const menus = await getAllMenu()
-  return c.html(<MenuList menus={menus} />)
+  return c.render(<MenuList menus={menus} />)
 })
 
 app.get('/new', (c) => {
-  return c.html(<MenuForm />)
+  return c.render(<MenuForm />)
 })
 
 app.post('/new', vValidator('form', menuSchema), async (c) => {
@@ -42,7 +42,7 @@ app.get('/:menu-slug', async (c) => {
   const menu = await getMenuBySlug(menuSlug)
   if (menu === undefined) return c.notFound()
 
-  return c.html(<MenuDetail menu={menu} />)
+  return c.render(<MenuDetail menu={menu} />)
 })
 
 app.get('/:menu-slug/edit', async (c) => {
@@ -50,7 +50,7 @@ app.get('/:menu-slug/edit', async (c) => {
   const menu = await getMenuBySlug(menuSlug)
   if (menu === undefined) return c.notFound()
 
-  return c.html(<MenuForm menu={menu} />)
+  return c.render(<MenuForm menu={menu} />)
 })
 
 app.post('/:menu-slug/edit', vValidator('form', menuSchema), async (c) => {

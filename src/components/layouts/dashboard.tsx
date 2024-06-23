@@ -1,5 +1,7 @@
 import { PropsWithChildren } from 'hono/jsx'
 import MainLayout from './main'
+import { useRequestContext } from 'hono/jsx-renderer'
+import { Env } from 'index'
 
 type Props = {
   title: string
@@ -9,12 +11,13 @@ type Props = {
 interface NavigationMenuItemProps {
   selected?: boolean
   href?: string
+  class?: string
 }
 
-function NavigationMenuItem({ children, selected, href }: PropsWithChildren<NavigationMenuItemProps>) {
+function NavigationMenuItem({ children, selected, href, class: className = '' }: PropsWithChildren<NavigationMenuItemProps>) {
   return (
     <li>
-      <a href={href} class={`flex rounded items-center hover:border-neutral-300/20 dark:hover:bg-neutral-700/20 py-1 pr-3 ${selected ? 'pl-0' : 'pl-2'}`}>
+      <a href={href} class={`flex rounded items-center hover:border-neutral-300/20 dark:hover:bg-neutral-700/20 py-1 pr-3 ${selected ? 'pl-0' : 'pl-2'} ${className}`}>
         {selected && (
           <div class="w-0.5 h-4 bg-orange-600 rounded mr-1.5" />
         )}
@@ -25,19 +28,25 @@ function NavigationMenuItem({ children, selected, href }: PropsWithChildren<Navi
 }
 
 export default function DashboardLayout({ children, title = 'Le Bistro', selectedSidebarItem }: PropsWithChildren<Props>) {
+  const c = useRequestContext<Env>()
+
   return (
     <MainLayout title={title}>
       <header class="flex items-center h-12 py-1 px-4">
         <span><b>Le Bistro</b></span>
       </header>
       <div class="flex flex-1">
-        <nav class="w-60">
+        <nav class="w-60 flex flex-col">
           <ul class="px-2 flex flex-col gap-1">
             <NavigationMenuItem selected={selectedSidebarItem === 'home'} href="/">Beranda</NavigationMenuItem>
             <NavigationMenuItem selected={selectedSidebarItem === 'transactions'} href="/transactions">Transaksi</NavigationMenuItem>
             <NavigationMenuItem selected={selectedSidebarItem === 'menu'} href="/menu">Menu</NavigationMenuItem>
             <NavigationMenuItem selected={selectedSidebarItem === 'staffs'} href="/staffs">Karyawan</NavigationMenuItem>
             <NavigationMenuItem selected={selectedSidebarItem === 'customers'} href="/customers">Pelanggan</NavigationMenuItem>
+          </ul>
+          <ul class="mt-auto border-t border-neutral-400/60 dark:border-neutral-700 p-2 flex flex-col gap-1">
+            <NavigationMenuItem href="#" class="font-bold">{c.var.user?.name}</NavigationMenuItem>
+            <NavigationMenuItem href="/logout" class="text-red-500 dark:text-red-400">Keluar</NavigationMenuItem>
           </ul>
         </nav>
         <main class="bg-neutral-50 dark:bg-neutral-800 rounded-tl-md flex-1 border-t-2 border-l-2 border-neutral-400/40 dark:border-neutral-700/40">

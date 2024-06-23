@@ -14,7 +14,7 @@ const loginSchema = required(object({
 }))
 
 app.get('/login', (c) => {
-  return c.html(<Login />)
+  return c.render(<Login />)
 })
 
 app.post('/login', vValidator('form', loginSchema), async (c) => {

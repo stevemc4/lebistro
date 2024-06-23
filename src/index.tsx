@@ -4,6 +4,7 @@ import { lucia } from 'auth'
 import { Hono } from 'hono'
 import { getCookie } from 'hono/cookie'
 import { csrf } from 'hono/csrf'
+import { jsxRenderer } from 'hono/jsx-renderer'
 import { Session, User } from 'lucia'
 
 import auth from 'routes/auth'
@@ -37,6 +38,8 @@ app.use('*', async (c, next) => {
   c.set('session', session)
   return next()
 })
+
+app.use('*', jsxRenderer(({ children }) => (<>{children}</>)))
 
 app.route('/', home)
 app.route('/', auth)
