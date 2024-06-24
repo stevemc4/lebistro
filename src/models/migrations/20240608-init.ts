@@ -38,9 +38,57 @@ export async function up(db: Kysely<unknown>): Promise<void> {
     .execute()
 
   await db.schema
+    .createTable('order')
+    .addColumn('id', 'integer', col => col.primaryKey().autoIncrement())
+    .addColumn('number', 'text', col => col.unique())
+    .addColumn('cashier_id', 'text', col => col.notNull())
+    .addColumn('status', 'text', col => col.notNull().defaultTo('open'))
+    .addColumn('notes', 'text')
+    .addColumn('tableNumber', 'text')
+    .addColumn('created_at', 'integer', col => col.defaultTo(sql`(unixepoch())`).notNull())
+    .addColumn('updated_at', 'integer', col => col.defaultTo(sql`(unixepoch())`).notNull())
+    .addForeignKeyConstraint(
+      'order_cashier_id_constraint',
+      ['cashier_id'],
+      'user',
+      ['id'],
+      cb => cb.onDelete('restrict'),
+    )
+    .execute()
+
+  await db.schema
+    .createTable('order_item')
+    .addColumn('id', 'integer', col => col.primaryKey().autoIncrement())
+    .addColumn('order_id', 'integer', col => col.notNull())
+    .addColumn('menu_id', 'integer', col => col.notNull())
+    .addColumn('quantity', 'integer', col => col.notNull())
+    .addColumn('notes', 'text')
+    .addForeignKeyConstraint(
+      'order_item_order_id_constraint',
+      ['order_id'],
+      'order',
+      ['id'],
+      cb => cb.onDelete('cascade'),
+    )
+    .addForeignKeyConstraint(
+      'order_item_menu_id_constraint',
+      ['menu_id'],
+      'menu',
+      ['id'],
+      cb => cb.onDelete('cascade'),
+    )
+    .execute()
+
+  await db.schema
     .createIndex('idx_menu_name')
     .on('menu')
     .column('name')
+    .execute()
+
+  await db.schema
+    .createIndex('idx_order_number')
+    .on('order')
+    .column('number')
     .execute()
 }
 
